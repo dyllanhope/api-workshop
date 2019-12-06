@@ -12,13 +12,19 @@ module.exports = (pool) => {
             await pool.query('INSERT INTO favourites(make,model,color,price,reg_number) VALUES($1,$2,$3,$4,$5)', data);
         }
     }
-    const listFavourites = async () =>{
+    const removeFavourite = async (reg) => {
+        await pool.query('DELETE FROM favourites WHERE reg_number = $1', [reg]);
+        let newList = await pool.query('SELECT * FROM favourites');
+        return newList.rows;
+    }
+    const listFavourites = async () => {
         let list = await pool.query('SELECT * FROM favourites');
         return list.rows;
     }
 
     return {
         saveFavourite,
-        listFavourites
+        listFavourites,
+        removeFavourite
     }
 }

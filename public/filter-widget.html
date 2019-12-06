@@ -24,22 +24,22 @@
 			{{/each}}
 		</select>
 		<button class='filterBtn'>Filter</button>
-		<button class='saveBtn'>Save to favourites</button>
 		<button class='viewBtn'>View favourites</button>
 	</script>
 	<script type='text/template' class='carList'>
 
 		{{#if select}}
-		<h2>Results</h2>
+		<h2 style='margin-bottom:5px'>Results</h2>
+		<button style='margin-bottom:5px' class='saveBtn'>Save to favourites</button>
+		<br>
 		{{else}}
-		<h2>Favourites</h2>
+		<h2 style='margin-bottom:5px'>Favourites</h2>
+		<button style='margin-bottom:5px' class='removeBtn'>Remove from favourites</button>
 		{{/if}}
 
 		<table style='width: 50%'>
 			<tr>
-				{{#if select}}
 				<th>Select</th>
-				{{/if}}
 				<th>Make</th>
 				<th>Model</th>
 				<th>Color</th>
@@ -48,11 +48,9 @@
 			</tr>
 			{{#each items}}
 			<tr>
-				{{#if ../select}}
 				<td>
 					<input name={{reg_number}} type="checkbox" class="saveChk" value="{{make}}-{{model}}-{{color}}-{{price}}-{{reg_number}}"> 
 				</td>
-				{{/if}}
 				<td>
 					{{make}}
 				</td>

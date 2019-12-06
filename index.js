@@ -70,6 +70,22 @@ app.get('/api/fetch/favourites', async (req, res) => {
     }
 });
 
+app.post('/api/remove/favourite', async (req,res) => {
+    try {
+        let reg = req.body.reg;
+        let newList = await service.removeFavourite(reg)
+        res.json({
+            status: 'success',
+            response: newList
+        });
+    } catch (error) {
+        res.json({
+            status: 'failed',
+            error: error.stack
+        })
+    }
+});
+
 const PORT = process.env.PORT || 3010;
 
 app.listen(PORT, function () {

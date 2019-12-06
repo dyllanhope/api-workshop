@@ -29,7 +29,6 @@ window.onload = () => {
                     let colorDropDown = document.querySelector('.colorDropDown');
                     let brandDropDown = document.querySelector('.brandDropDown');
                     let filterBtn = document.querySelector('.filterBtn');
-                    let saveBtn = document.querySelector('.saveBtn');
                     let viewBtn = document.querySelector('.viewBtn');
 
                     viewBtn.addEventListener('click', () => {
@@ -37,10 +36,10 @@ window.onload = () => {
                             .get('/api/fetch/favourites')
                             .then(res => {
                                 let list = res.data.response;
-                                console.log(list)
                                 let cars = { select: false, items: list };
                                 let html = carList(cars);
                                 carsList.innerHTML = html;
+                                renderRemove();
                             });
                     });
 
@@ -55,6 +54,7 @@ window.onload = () => {
                                     let cars = { select: true, items: list };
                                     let html = carList(cars);
                                     carsList.innerHTML = html;
+                                    renderSave();
                                 });
                         } else if (color !== 'any' && brand === 'any') {
                             axios
@@ -64,6 +64,7 @@ window.onload = () => {
                                     let cars = { select: true, items: list };
                                     let html = carList(cars);
                                     carsList.innerHTML = html;
+                                    renderSave();
                                 });
                         } else if (color === 'any' && brand !== 'any') {
                             axios
@@ -73,6 +74,7 @@ window.onload = () => {
                                     let cars = { select: true, items: list };
                                     let html = carList(cars);
                                     carsList.innerHTML = html;
+                                    renderSave();
                                 });
                         } else {
                             axios
@@ -82,25 +84,52 @@ window.onload = () => {
                                     let cars = { select: true, items: list };
                                     let html = carList(cars);
                                     carsList.innerHTML = html;
+                                    renderSave();
                                 });
                         }
                     })
 
-                    saveBtn.addEventListener('click', () => {
-                        const selected = Array.from(document.querySelectorAll(".saveChk:checked"));
+                    const renderSave = () => {
+                        let saveBtn = document.querySelector('.saveBtn');
 
-                        const selectedCars = selected.map(e => e.value);
-                        for (const car of selectedCars) {
-                            let details = car.split('-');
-                            let record = { make: details[0], model: details[1], color: details[2], price: details[3], reg_number: details[4] }
-                            axios
-                                .post('/api/save/favourite', record)
-                                .then(res => {
-                                    let response = res.data.response
-                                    carsList.innerHTML = response;
-                                });
-                        }
-                    })
+                        saveBtn.addEventListener('click', () => {
+                            const selected = Array.from(document.querySelectorAll(".saveChk:checked"));
+
+                            const selectedCars = selected.map(e => e.value);
+                            for (const car of selectedCars) {
+                                let details = car.split('-');
+                                let record = { make: details[0], model: details[1], color: details[2], price: details[3], reg_number: details[4] }
+                                axios
+                                    .post('/api/save/favourite', record)
+                                    .then(res => {
+                                        let response = res.data.response
+                                        carsList.innerHTML = response;
+                                    });
+                            }
+                        })
+                    }
+
+                    const renderRemove = () => {
+                        let removeBtn = document.querySelector('.removeBtn');
+
+                        removeBtn.addEventListener('click', () => {
+                            const selected = Array.from(document.querySelectorAll(".saveChk:checked"));
+                            const selectedCars = selected.map(e => e.value);
+                            for (const car of selectedCars) {
+                                let details = car.split('-');
+                                let reg_number = details[4];
+                                axios
+                                    .post('/api/remove/favourite', { reg: reg_number })
+                                    .then(res => {
+                                        let list = res.data.response;
+                                        let cars = { select: false, items: list };
+                                        let html = carList(cars);
+                                        carsList.innerHTML = html;
+                                        renderRemove();
+                                    });
+                            }
+                        });
+                    }
 
                 });
 
