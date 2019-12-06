@@ -56,11 +56,11 @@ app.post('/api/save/favourite', async (req, res) => {
     }
 });
 
-app.get('/api/fetch/favourites', async (req, res) => {
+app.get('/api/fetch/favourites/:username', async (req, res) => {
     try {
         res.json({
             status: 'success',
-            response: await service.listFavourites()
+            response: await service.listFavourites(req.params.username)
         });
     } catch (error) {
         res.json({
@@ -70,10 +70,10 @@ app.get('/api/fetch/favourites', async (req, res) => {
     }
 });
 
-app.post('/api/remove/favourite', async (req,res) => {
+app.post('/api/remove/favourite', async (req, res) => {
     try {
-        let reg = req.body.reg;
-        let newList = await service.removeFavourite(reg)
+        let details = req.body;
+        let newList = await service.removeFavourite(details.reg, details.user)
         res.json({
             status: 'success',
             response: newList

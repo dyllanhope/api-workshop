@@ -11,6 +11,8 @@
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 	<script type='text/template' class='dropDownTemplate'>
+		<a href="/filter-widget.html"><button style='margin-bottom:10px'>Sign out</button></a>
+		<br>
 		<label for="colorDropDown"> Colors:</label>
 		<select class="colorDropDown" >
 			{{#each color}}
@@ -26,6 +28,13 @@
 		<button class='filterBtn'>Filter</button>
 		<button class='viewBtn'>View favourites</button>
 	</script>
+
+	<script type='text/template' class='loginPage'>
+	<h1>Login</h1>
+	<input type="text" class='loginVal' placeholder='Username here..'>
+	<button class='loginBtn'>Login</button>
+	</script>
+
 	<script type='text/template' class='carList'>
 
 		{{#if select}}
@@ -82,7 +91,7 @@
 </head>
 
 <body>
-	<h1>Filter widget</h1>
+	<h1 style='margin-bottom:0px'>Filter widget</h1>
 	<div class='dropdowns'>
 
 	</div>
