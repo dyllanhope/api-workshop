@@ -1,14 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Filter widget</title>
 	<link rel="stylesheet" href="style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+	<script type='text/template' class='dropDownTemplate'>
+		<label for="colorDropDown"> Colors:</label>
+		<select class="colorDropDown" >
+			{{#each color}}
+			<option value="{{this}}">{{this}}</option>
+			{{/each}}
+		</select>
+		<label for="brandDropDown"> Brands:</label>
+		<select class="brandDropDown" >
+			{{#each brand}}
+			<option value="{{this}}">{{this}}</option>
+			{{/each}}
+		</select>
+		<button class='filterBtn'>Filter</button>
+		<button class='saveBtn'>Save to favourites</button>
+		<button class='viewBtn'>View favourites</button>
+	</script>
+	<script type='text/template' class='carList'>
+
+		{{#if select}}
+		<h2>Results</h2>
+		{{else}}
+		<h2>Favourites</h2>
+		{{/if}}
+
+		<table style='width: 50%'>
+			<tr>
+				{{#if select}}
+				<th>Select</th>
+				{{/if}}
+				<th>Make</th>
+				<th>Model</th>
+				<th>Color</th>
+				<th>Price</th>
+				<th>Reg Number</th>
+			</tr>
+			{{#each items}}
+			<tr>
+				{{#if ../select}}
+				<td>
+					<input name={{reg_number}} type="checkbox" class="saveChk" value="{{make}}-{{model}}-{{color}}-{{price}}-{{reg_number}}"> 
+				</td>
+				{{/if}}
+				<td>
+					{{make}}
+				</td>
+				<td>
+					{{model}}
+				</td>
+				<td style='background-color:{{color}}'>
+					{{color}}
+				</td>
+				<td>
+					{{price}}
+				</td>
+				<td>
+					{{reg_number}}
+				</td>
+			</tr>
+			{{/each}}
+		  </table>
+	</script>
+
+	<style>
+		table,
+		th,
+		td {
+			border: 1px solid black;
+		}
+	</style>
 
 </head>
+
 <body>
 	<h1>Filter widget</h1>
+	<div class='dropdowns'>
+
+	</div>
+	<br>
+	<div class='results'>
+
+	</div>
 </body>
+<script src='filter.js'></script>
+
 </html>
